@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gertrude's 30th Birthday Celebration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@500;600&family=Playfair+Display:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f7f0e1;
+    --cream-deep:#efe4c9;
+    --ink:#1a1611;
+    --ink-soft:#2b241c;
+    --gold:#c9a227;
+    --gold-light:#e8cd7d;
+    --gold-dark:#8a6a17;
+    --rust:#a1512b;
+    --forest:#37402a;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--ink);
+    font-family:'Cormorant Garamond', serif;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--gold-light); color:var(--ink);}
+
+  .eyebrow{
+    font-family:'Cinzel', serif;
+    letter-spacing:.3em;
+    font-size:.75rem;
+    color:var(--gold-dark);
+    text-transform:uppercase;
+  }
+
+  .gold-text{
+    background:linear-gradient(180deg, var(--gold-light), var(--gold) 45%, var(--gold-dark));
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:var(--gold);
+  }
+
+  .divider{
+    display:flex; align-items:center; justify-content:center; gap:.6rem;
+    color:var(--gold-dark);
+    margin:.8rem auto;
+  }
+  .divider::before, .divider::after{
+    content:"";
+    width:38px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .divider span{font-size:.9rem;}
+
+  /* ============ SPLASH SCREEN ============ */
+  #splash{
+    position:fixed; inset:0; z-index:100;
+    background:
+      radial-gradient(ellipse at 50% 15%, rgba(201,162,39,.14), transparent 55%),
+      radial-gradient(ellipse at 15% 85%, rgba(161,81,43,.12), transparent 45%),
+      linear-gradient(180deg, #14100c 0%, #1e1811 60%, #14100c 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:1.5rem;
+    transition:opacity 1s ease, visibility 1s ease;
+  }
+  #splash.hide{opacity:0; visibility:hidden; pointer-events:none;}
+
+  .sparkle{
+    position:absolute; border-radius:50%;
+    background:var(--gold-light);
+    opacity:.55; filter:blur(.5px);
+    animation:twinkle 3.5s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.75;} }
+
+  .splash-heading{
+    font-family:'Cinzel', serif;
+    color:var(--gold-light);
+    letter-spacing:.25em;
+    font-size:.72rem;
+    text-transform:uppercase;
+    margin-bottom:.4rem;
+  }
+  .splash-title{
+    font-family:'Great Vibes', cursive;
+    font-size:clamp(2.4rem, 8vw, 4rem);
+    line-height:1;
+    color:var(--gold-light);
+    margin:0 0 .2rem;
+  }
+  .splash-sub{
+    color:#d8cbaa; font-size:1rem; font-style:italic; margin-bottom:1.6rem;
+  }
+
+  .cake-scene{
+    position:relative;
+    width:min(78vw, 340px);
+    margin:0 auto 1.4rem;
+  }
+
+  .plate{
+    width:106%;
+    height:26px;
+    margin-left:-3%;
+    border-radius:50%;
+    background:radial-gradient(ellipse at 50% 30%, #f1e4bb, #cbab55 70%, #8a6a17);
+    box-shadow:0 10px 24px rgba(0,0,0,.5), inset 0 2px 4px rgba(255,255,255,.4);
+    position:relative; z-index:1;
+  }
+
+  .cake{
+    position:relative;
+    margin:0 auto;
+    display:flex; flex-direction:column; align-items:center;
+    transform:translateY(6px);
+  }
+
+  .tier{
+    position:relative;
+    border-radius:10px 10px 6px 6px;
+    box-shadow: inset 0 6px 10px rgba(255,255,255,.25), inset 0 -10px 16px rgba(0,0,0,.18), 0 8px 16px rgba(0,0,0,.35);
+  }
+  .tier.bottom{
+    width:78%;
+    height:78px;
+    background:linear-gradient(180deg, #fdf6e3 0%, #f3e3bd 55%, #e6cf98 100%);
+  }
+  .tier.top{
+    width:52%;
+    height:56px;
+    margin-top:-14px;
+    background:linear-gradient(180deg, #fffaf0 0%, #f7ead0 55%, #ecdcac 100%);
+  }
+  .drip{
+    position:absolute; left:0; right:0; bottom:-10px; height:22px;
+    background:
+      radial-gradient(circle at 8% 0, var(--gold-light) 0 7px, transparent 8px),
+      radial-gradient(circle at 24% 0, var(--gold-light) 0 9px, transparent 10px),
+      radial-gradient(circle at 42% 0, var(--gold-light) 0 6px, transparent 7px),
+      radial-gradient(circle at 60% 0, var(--gold-light) 0 10px, transparent 11px),
+      radial-gradient(circle at 78% 0, var(--gold-light) 0 7px, transparent 8px),
+      radial-gradient(circle at 93% 0, var(--gold-light) 0 8px, transparent 9px);
+    opacity:.9;
+  }
+  .tier.bottom .drip{ filter:hue-rotate(0deg) saturate(1.1); }
+
+  .band{
+    position:absolute; left:8%; right:8%; top:38%; height:6px; border-radius:3px;
+    background:linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    opacity:.85;
+  }
+
+  .topper{
+    position:absolute; top:-46px; left:50%; transform:translateX(-50%);
+    font-family:'Great Vibes', cursive;
+    font-size:1.6rem;
+    color:var(--gold-light);
+    text-shadow:0 0 8px rgba(232,205,125,.6);
+    z-index:3;
+  }
+
+  .candles{
+    position:absolute; top:-58px; left:50%; transform:translateX(-50%);
+    display:flex; gap:14px; z-index:2;
+  }
+
+  .candle{ position:relative; width:8px; }
+  .wax{
+    width:8px; height:46px; border-radius:3px;
+    background:repeating-linear-gradient(180deg, #fdf8ea 0 6px, #f1dfa6 6px 12px);
+    box-shadow: inset -2px 0 3px rgba(0,0,0,.15);
+    margin-top:16px;
+  }
+  .wick{
+    position:absolute; top:9px; left:50%; transform:translateX(-50%);
+    width:2px; height:8px; background:#3a2c1a; border-radius:1px;
+  }
+  .flame-wrap{
+    position:absolute; top:-16px; left:50%;
+    width:14px; height:20px;
+    transform-origin:50% 100%;
+    transition:transform .12s ease-out;
+  }
+  .flame{
+    position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+    width:10px; height:16px;
+    border-radius:50% 50% 50% 50% / 65% 65% 35% 35%;
+    background:radial-gradient(ellipse at 50% 70%, #fff6d0 0%, #ffd35c 35%, #ff9d2e 65%, #e0501c 100%);
+    box-shadow:0 0 12px 3px rgba(255,153,50,.65), 0 0 22px 6px rgba(255,153,50,.3);
+    animation:flicker 1.6s ease-in-out infinite;
+  }
+  .flame::after{
+    content:""; position:absolute; left:50%; bottom:1px; transform:translateX(-50%);
+    width:4px; height:7px; border-radius:50%;
+    background:radial-gradient(ellipse at 50% 70%, #4c6cff 0%, #2947c9 60%, transparent 100%);
+    opacity:.55;
+  }
+  @keyframes flicker{
+    0%,100%{ transform:translateX(-50%) scale(1) rotate(0deg); }
+    25%{ transform:translateX(-50%) scale(1.04,.96) rotate(-3deg); }
+    50%{ transform:translateX(-50%) scale(.96,1.05) rotate(2deg); }
+    75%{ transform:translateX(-50%) scale(1.02,.98) rotate(-1deg); }
+  }
+  .candle.out .flame-wrap{ opacity:0; transform:scale(.2); }
+  .candle.out .glow{ opacity:0; }
+  .glow{
+    position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+    width:26px; height:26px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,180,80,.35), transparent 70%);
+    filter:blur(2px);
+    transition:opacity .3s ease;
+    pointer-events:none;
+  }
+
+  .smoke{
+    position:absolute; top:-18px; left:50%; width:6px; height:6px; border-radius:50%;
+    background:rgba(210,210,210,.5); pointer-events:none;
+  }
+  @keyframes smokeRise{
+    0%{ transform:translate(-50%,0) scale(1); opacity:.55; }
+    100%{ transform:translate(calc(-50% + var(--drift,10px)), -46px) scale(2.6); opacity:0; }
+  }
+
+  .confetti-piece{
+    position:fixed; top:40%; left:50%; width:7px; height:12px; z-index:5;
+    pointer-events:none; border-radius:1px;
+  }
+
+  .breath-meter{
+    width:min(70vw, 240px); height:8px; border-radius:5px;
+    background:rgba(255,255,255,.12); overflow:hidden; margin:.4rem auto 0;
+  }
+  .breath-meter-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+    transition:width .08s linear;
+  }
+
+  .mic-status{
+    color:#cbb98a; font-size:.85rem; letter-spacing:.03em; margin-top:.6rem; min-height:1.2em;
+  }
+
+  .btn{
+    font-family:'Cinzel', serif;
+    letter-spacing:.12em;
+    font-size:.8rem;
+    text-transform:uppercase;
+    color:var(--ink);
+    background:linear-gradient(180deg, var(--gold-light), var(--gold));
+    border:1px solid var(--gold-dark);
+    padding:.85rem 1.8rem;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 6px 16px rgba(0,0,0,.35);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 10px 20px rgba(0,0,0,.4); }
+  .btn:active{ transform:translateY(0); }
+  .btn.ghost{
+    background:transparent; color:var(--gold-light); border:1px solid rgba(232,205,125,.5);
+    box-shadow:none;
+  }
+
+  .skip-link{
+    margin-top:1rem; background:none; border:none; color:#a89572;
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-size:.9rem;
+    text-decoration:underline; cursor:pointer;
+  }
+
+  /* ============ MAIN SITE ============ */
+  #site{
+    background:var(--cream);
+    min-height:100vh;
+  }
+
+  .frame-border{
+    border:2px solid var(--gold);
+    outline:8px solid var(--ink);
+    outline-offset:-14px;
+    margin:10px;
+    min-height:calc(100vh - 20px);
+  }
+
+  section{
+    position:relative;
+    padding:5.5rem 1.5rem;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+
+  .crest{
+    width:84px; height:84px; margin:0 auto 1rem;
+    border:2px solid var(--gold);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    background:radial-gradient(circle, rgba(201,162,39,.08), transparent 70%);
+  }
+  .crest::before{
+    content:"♛";
+    position:absolute; top:-16px; color:var(--gold); font-size:1.1rem;
+  }
+  .crest span{
+    font-family:'Great Vibes', cursive; font-size:2.2rem; color:var(--gold-dark);
+  }
+
+  h1.name{
+    font-family:'Great Vibes', cursive;
+    font-size:clamp(3rem, 11vw, 5.5rem);
+    color:var(--ink);
+    margin:.2rem 0 0;
+    line-height:1;
+  }
+  .big-number{
+    font-family:'Playfair Display', serif;
+    font-weight:800;
+    font-size:clamp(5rem, 26vw, 11rem);
+    line-height:.85;
+    margin:.2rem 0;
+    position:relative;
+    display:inline-block;
+  }
+  .big-number sup{
+    font-size:.28em;
+    vertical-align:super;
+    -webkit-text-fill-color:var(--gold-dark);
+    color:var(--gold-dark);
+  }
+  .headline{
+    font-family:'Cinzel', serif;
+    font-weight:600;
+    letter-spacing:.08em;
+    font-size:clamp(1.4rem, 4vw, 2.1rem);
+    color:var(--ink);
+    text-transform:uppercase;
+  }
+  .headline.accent{ color:var(--gold-dark); }
+  .tagline{
+    font-style:italic; font-size:1.25rem; color:var(--ink-soft);
+    max-width:420px; margin:.8rem auto 1.6rem;
+  }
+
+  .quick-facts{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:1.6rem;
+    font-family:'Cinzel', serif; font-size:.78rem; letter-spacing:.06em;
+    color:var(--gold-dark); text-transform:uppercase; margin-top:1rem;
+  }
+  .quick-facts div{ color:var(--ink); font-family:'Cormorant Garamond', serif; font-size:1.05rem; letter-spacing:0; text-transform:none; margin-top:.15rem;}
+
+  .scroll-cue{
+    margin-top:2.6rem; color:var(--gold-dark); font-size:.75rem; letter-spacing:.2em;
+    font-family:'Cinzel', serif; animation:bob 2s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
+
+  /* countdown */
+  .countdown-grid{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:1rem 1.2rem; margin-top:1.6rem;
+  }
+  .cd-card{
+    width:110px; padding:1.1rem .5rem;
+    background:linear-gradient(180deg, #fffdf7, var(--cream-deep));
+    border:1px solid var(--gold);
+    border-radius:10px;
+    box-shadow: var(--shadow);
+  }
+  .cd-num{
+    font-family:'Playfair Display', serif; font-weight:700; font-size:2.6rem;
+    color:var(--ink); line-height:1;
+  }
+  .cd-label{
+    font-family:'Cinzel', serif; font-size:.68rem; letter-spacing:.15em;
+    color:var(--gold-dark); text-transform:uppercase; margin-top:.4rem;
+  }
+
+  /* dress code */
+  .dress-grid{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:2.4rem; margin-top:2rem;
+  }
+  .dress-card{
+    width:250px; padding:2.2rem 1.4rem;
+    border:1px solid var(--gold);
+    border-radius:14px;
+    background:linear-gradient(180deg, #fffdf7, var(--cream-deep));
+    box-shadow:var(--shadow);
+  }
+  .dress-icon{ font-size:2.2rem; color:var(--ink); margin-bottom:.6rem; }
+  .dress-title{
+    font-family:'Cinzel', serif; letter-spacing:.12em; font-size:.95rem;
+    color:var(--gold-dark); text-transform:uppercase; margin-bottom:.3rem;
+  }
+  .dress-desc{ font-size:1.15rem; color:var(--ink); }
+
+  /* map */
+  .map-frame{
+    margin-top:1.8rem; border:3px solid var(--gold);
+    border-radius:14px; overflow:hidden; box-shadow:var(--shadow);
+    max-width:640px; margin-left:auto; margin-right:auto;
+  }
+  .map-frame iframe{ width:100%; height:340px; border:0; display:block; filter:saturate(.85); }
+  .venue-name{ font-size:1.4rem; margin-top:1rem; color:var(--ink); }
+  .venue-note{ font-size:.95rem; color:var(--ink-soft); font-style:italic; }
+
+  /* rsvp */
+  .rsvp-box{ margin-top:1.6rem; }
+  .rsvp-contact{ margin-top:1.6rem; font-size:1.05rem; color:var(--ink-soft); }
+  .rsvp-contact strong{ color:var(--ink); }
+
+  footer{
+    text-align:center; padding:2.6rem 1rem 3rem; font-family:'Cinzel', serif;
+    letter-spacing:.15em; font-size:.72rem; color:var(--gold-dark); text-transform:uppercase;
+  }
+  footer .badge{
+    display:inline-block; padding:.6rem 1.6rem; border:1px solid var(--gold);
+    border-radius:6px; background:var(--ink); color:var(--gold-light);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SPLASH SCREEN ============ -->
+<div id="splash">
+  <div class="splash-heading">Please join us in celebrating</div>
+  <div class="splash-title">Gertrude's 30th</div>
+  <div class="splash-sub" id="splashSub">Make a wish, then blow out the candles</div>
+
+  <div class="cake-scene" id="cakeScene">
+    <div class="topper">30</div>
+    <div class="candles" id="candles"></div>
+    <div class="cake">
+      <div class="tier top"><div class="band"></div><div class="drip"></div></div>
+      <div class="tier bottom"><div class="band"></div><div class="drip"></div></div>
+    </div>
+    <div class="plate"></div>
+  </div>
+
+  <div class="breath-meter"><div class="breath-meter-fill" id="breathFill"></div></div>
+  <div class="mic-status" id="micStatus">&nbsp;</div>
+
+  <div id="splashControls">
+    <button class="btn" id="lightBtn">Light the Candles</button>
+  </div>
+  <button class="skip-link" id="skipBtn">Skip to invitation →</button>
+</div>
+
+<!-- ============ MAIN SITE ============ -->
+<div id="site">
+<div class="frame-border">
+
+  <!-- SECTION 1 : HERO -->
+  <section id="hero">
+    <div class="crest"><span>G</span></div>
+    <div class="eyebrow">Please join us in celebrating</div>
+    <h1 class="name">Gertrude's</h1>
+    <div class="big-number gold-text">30<sup>th</sup></div>
+    <div class="headline">Birthday</div>
+    <div class="headline accent">Celebration</div>
+    <div class="divider"><span>❦</span></div>
+    <p class="tagline">A Celebration of Grace, Growth &amp; Greatness</p>
+    <div class="quick-facts">
+      <div>Date<div>Sun, Sept 20, 2026</div></div>
+      <div>Time<div>4:00 PM</div></div>
+      <div>Venue<div>F3 Lounge &amp; Event Center</div></div>
+    </div>
+    <div class="scroll-cue">Scroll to explore ↓</div>
+  </section>
+
+  <!-- SECTION 2 : COUNTDOWN -->
+  <section id="countdown">
+    <div class="eyebrow">Save the date</div>
+    <div class="headline" style="margin-top:.4rem;">Counting Down To The Celebration</div>
+    <div class="divider"><span>✦</span></div>
+    <div class="countdown-grid">
+      <div class="cd-card"><div class="cd-num" id="cd-days">00</div><div class="cd-label">Days</div></div>
+      <div class="cd-card"><div class="cd-num" id="cd-hours">00</div><div class="cd-label">Hours</div></div>
+      <div class="cd-card"><div class="cd-num" id="cd-mins">00</div><div class="cd-label">Minutes</div></div>
+      <div class="cd-card"><div class="cd-num" id="cd-secs">00</div><div class="cd-label">Seconds</div></div>
+    </div>
+    <p class="tagline" style="margin-top:2rem;">Until we raise a glass to Gertrude, Sunday 20th September 2026 at 4:00 PM.</p>
+  </section>
+
+  <!-- SECTION 3 : DRESS CODE -->
+  <section id="dresscode">
+    <div class="eyebrow">Dress code</div>
+    <div class="headline" style="margin-top:.4rem;">Classy &amp; Elegant Attire</div>
+    <div class="divider"><span>❦</span></div>
+    <div class="dress-grid">
+      <div class="dress-card">
+        <div class="dress-icon">🎩</div>
+        <div class="dress-title">Men</div>
+        <div class="dress-desc">Black Business Casual</div>
+      </div>
+      <div class="dress-card">
+        <div class="dress-icon">👠</div>
+        <div class="dress-title">Women</div>
+        <div class="dress-desc">Classy &amp; Elegant Attire</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 : MAP -->
+  <section id="location">
+    <div class="eyebrow">Venue</div>
+    <div class="headline" style="margin-top:.4rem;">Find Us Here</div>
+    <div class="divider"><span>✦</span></div>
+    <div class="venue-name">F3 Lounge &amp; Event Center</div>
+    <div class="map-frame">
+      <iframe
+        src="https://www.google.com/maps?q=F3+Lounge+and+Event+Center&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+    <p class="venue-note">Map centers on "F3 Lounge and Event Center" — replace the iframe src with the exact address/place link for pinpoint accuracy.</p>
+  </section>
+
+  <!-- SECTION 5 : RSVP -->
+  <section id="rsvp">
+    <div class="eyebrow">Kindly respond</div>
+    <div class="headline" style="margin-top:.4rem;">RSVP</div>
+    <div class="divider"><span>❦</span></div>
+    <p class="tagline">Strictly by invitation — please confirm your attendance so we can save your seat at the table.</p>
+    <div class="rsvp-box">
+      <a class="btn" href="https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM_LINK" target="_blank" rel="noopener">RSVP Now</a>
+    </div>
+    <div class="rsvp-contact">Questions? Contact <strong>Kojo</strong> · 612-707-1467</div>
+  </section>
+
+  <footer>
+    <div class="badge">Strictly By Invitation</div>
+  </footer>
+
+</div>
+</div>
+
+<script>
+(() => {
+  /* ---------- decorative sparkles on splash ---------- */
+  const splash = document.getElementById('splash');
+  for (let i = 0; i < 26; i++){
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    const size = Math.random()*2.4 + 1;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.animationDelay = (Math.random()*3.5)+'s';
+    splash.appendChild(s);
+  }
+
+  /* ---------- build candles ---------- */
+  const NUM_CANDLES = 5;
+  const candlesWrap = document.getElementById('candles');
+  const candles = [];
+  for (let i = 0; i < NUM_CANDLES; i++){
+    const c = document.createElement('div');
+    c.className = 'candle';
+    c.innerHTML = `
+      <div class="glow"></div>
+      <div class="flame-wrap"><div class="flame"></div></div>
+      <div class="wick"></div>
+      <div class="wax"></div>
+    `;
+    candlesWrap.appendChild(c);
+    candles.push(c);
+  }
+
+  const micStatus = document.getElementById('micStatus');
+  const breathFill = document.getElementById('breathFill');
+  const lightBtn = document.getElementById('lightBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const splashControls = document.getElementById('splashControls');
+  const splashSub = document.getElementById('splashSub');
+
+  let litCount = NUM_CANDLES;
+  let usingMic = false;
+  let rafId = null;
+
+  function goToSite(){
+    splash.classList.add('hide');
+    setTimeout(()=>{ splash.remove(); }, 1100);
+  }
+
+  function spawnSmoke(candleEl){
+    for (let i=0;i<3;i++){
+      const puff = document.createElement('div');
+      puff.className = 'smoke';
+      puff.style.setProperty('--drift', (Math.random()*20-10)+'px');
+      puff.style.animation = `smokeRise ${0.9+Math.random()*0.5}s ease-out ${i*0.12}s forwards`;
+      candleEl.appendChild(puff);
+      setTimeout(()=>puff.remove(), 1800);
+    }
+  }
+
+  function burstConfetti(){
+    const colors = ['#c9a227','#e8cd7d','#f7f0e1','#a1512b'];
+    for (let i=0;i<44;i++){
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+      const angle = (Math.random()*Math.PI) - Math.PI/2 - Math.PI/2;
+      const dist = 120 + Math.random()*220;
+      const dx = Math.cos(angle)*dist;
+      const dy = Math.sin(angle)*dist - 80;
+      p.animate([
+        { transform:'translate(-50%,-50%) rotate(0deg)', opacity:1 },
+        { transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy+260}px)) rotate(${360+Math.random()*360}deg)`, opacity:0 }
+      ], { duration: 1400+Math.random()*700, easing:'cubic-bezier(.2,.6,.3,1)' });
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(), 2200);
+    }
+  }
+
+  function extinguishOne(){
+    const lit = candles.find(c => !c.classList.contains('out'));
+    if (!lit) return;
+    lit.classList.add('out');
+    spawnSmoke(lit);
+    litCount--;
+    if (litCount <= 0){
+      micStatus.textContent = 'Wish granted! 🎉';
+      splashSub.textContent = 'Happy 30th, Gertrude!';
+      burstConfetti();
+      setTimeout(goToSite, 1500);
+      stopMic();
+    }
+  }
+
+  /* manual tap-to-blow fallback */
+  candles.forEach(c => {
+    c.querySelector('.flame-wrap').addEventListener('click', () => {
+      if (!c.classList.contains('out')){
+        c.classList.add('out');
+        spawnSmoke(c);
+        litCount--;
+        if (litCount <= 0){
+          micStatus.textContent = 'Wish granted! 🎉';
+          splashSub.textContent = 'Happy 30th, Gertrude!';
+          burstConfetti();
+          setTimeout(goToSite, 1500);
+        }
+      }
+    });
+  });
+
+  skipBtn.addEventListener('click', goToSite);
+
+  let audioCtx, analyser, dataArray, stream;
+  let blowEnergy = 0;
+  const BLOW_THRESHOLD = 0.10;
+  const EXTINGUISH_ENERGY = 3.2;
+
+  function stopMic(){
+    if (rafId) cancelAnimationFrame(rafId);
+    if (stream) stream.getTracks().forEach(t => t.stop());
+    if (audioCtx) audioCtx.close();
+  }
+
+  function rms(data){
+    let sum = 0;
+    for (let i=0;i<data.length;i++){
+      const v = (data[i]-128)/128;
+      sum += v*v;
+    }
+    return Math.sqrt(sum/data.length);
+  }
+
+  function loop(){
+    analyser.getByteTimeDomainData(dataArray);
+    const level = rms(dataArray);
+    breathFill.style.width = Math.min(100, level*260)+'%';
+
+    /* live flame lean, proportional to breath intensity */
+    candles.forEach((c, i) => {
+      if (c.classList.contains('out')) return;
+      const fw = c.querySelector('.flame-wrap');
+      const lean = Math.min(level*90, 42) * (i % 2 === 0 ? -1 : 1);
+      const squash = 1 - Math.min(level*0.9, 0.55);
+      fw.style.transform = `rotate(${lean}deg) scaleY(${squash})`;
+    });
+
+    if (level > BLOW_THRESHOLD){
+      blowEnergy += (level - BLOW_THRESHOLD) * 2.2;
+      micStatus.textContent = 'Keep blowing…';
+    } else {
+      blowEnergy *= 0.9;
+      if (litCount > 0) micStatus.textContent = 'Blow toward your screen 💨';
+    }
+
+    if (blowEnergy > EXTINGUISH_ENERGY){
+      extinguishOne();
+      blowEnergy -= EXTINGUISH_ENERGY;
+    }
+
+    rafId = requestAnimationFrame(loop);
+  }
+
+  async function startMic(){
+    try{
+      stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioCtx.createMediaStreamSource(stream);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 512;
+      dataArray = new Uint8Array(analyser.fftSize);
+      source.connect(analyser);
+      usingMic = true;
+      micStatus.textContent = 'Blow toward your screen 💨';
+      splashControls.innerHTML = '';
+      loop();
+    } catch(err){
+      micStatus.textContent = "Mic unavailable — tap each flame to blow it out";
+      splashControls.innerHTML = '';
+    }
+  }
+
+  lightBtn.addEventListener('click', () => {
+    lightBtn.disabled = true;
+    lightBtn.textContent = 'Requesting mic…';
+    startMic();
+  });
+
+  /* ---------- countdown ---------- */
+  const target = new Date('2026-09-20T16:00:00');
+  const dEl = document.getElementById('cd-days');
+  const hEl = document.getElementById('cd-hours');
+  const mEl = document.getElementById('cd-mins');
+  const sEl = document.getElementById('cd-secs');
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function tickCountdown(){
+    const now = new Date();
+    let diff = target - now;
+    if (diff < 0) diff = 0;
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    dEl.textContent = pad(days);
+    hEl.textContent = pad(hours);
+    mEl.textContent = pad(mins);
+    sEl.textContent = pad(secs);
+  }
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
+})();
+</script>
+
+</body>
+</html>
