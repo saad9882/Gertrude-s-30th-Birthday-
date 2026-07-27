@@ -535,7 +535,7 @@
 
   <!-- ============ SPLASH SCREEN ============ -->
   <div id="splash">
-    <video id="splashVideo" src="splash.mp4" playsinline></video>
+    <video id="splashVideo" src="splash.mp4" autoplay muted playsinline></video>
   </div>
 
   <!-- ============ MAIN SITE ============ -->
@@ -709,25 +709,19 @@
       if (splash && splashVideo) {
         splash.style.cursor = 'pointer';
 
-        // Listen for video ending to automatically enter
-        splashVideo.addEventListener('ended', () => {
-          if (splashState === 1) {
-            enterInvitation();
-          }
+        // Play the video programmatically on load to ensure it starts playing immediately
+        splashVideo.play().catch((err) => {
+          console.log("Autoplay failed:", err);
         });
 
+        // Listen for video ending to automatically enter
+        splashVideo.addEventListener('ended', () => {
+          enterInvitation();
+        });
+
+        // Single tap to skip/enter invitation
         splash.addEventListener('click', () => {
-          if (splashState === 0) {
-            // First tap: Play video
-            splashState = 1;
-            splashVideo.play().catch((err) => {
-              console.log("Video play failed, skipping splash:", err);
-              enterInvitation();
-            });
-          } else if (splashState === 1) {
-            // Second tap: Skip video / enter site
-            enterInvitation();
-          }
+          enterInvitation();
         });
       }
 
