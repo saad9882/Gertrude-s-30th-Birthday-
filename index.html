@@ -719,9 +719,22 @@
           enterInvitation();
         });
 
-        // Single tap to skip/enter invitation
-        splash.addEventListener('click', () => {
-          enterInvitation();
+        // Tap to control flow: 1st tap plays music, 2nd tap enters
+        splash.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (splashState === 0) {
+            if (bgMusic && bgMusic.paused) {
+              bgMusic.play().then(() => {
+                musicStarted = true;
+                setToggleIcon(true);
+              }).catch((err) => {
+                console.log("Music play failed on first tap:", err);
+              });
+            }
+            splashState = 1;
+          } else if (splashState === 1) {
+            enterInvitation();
+          }
         });
       }
 
@@ -760,6 +773,7 @@
         bgMusic.play().then(() => {
           musicStarted = true;
           setToggleIcon(true);
+          splashState = 1; // Music is already playing, next tap goes to site
         }).catch(() => {
           /* autoplay blocked until a user gesture — will start on first click/tap */
           setToggleIcon(false);
