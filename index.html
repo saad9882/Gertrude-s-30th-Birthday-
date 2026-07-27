@@ -68,27 +68,73 @@
       bottom: 20px;
       right: 20px;
       z-index: 200;
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: linear-gradient(180deg, #fffdf6, var(--cream-deep));
+      background: rgba(250, 245, 233, 0.9);
       border: 1.5px solid var(--gold);
       color: var(--gold-dark);
       display: none; /* hidden on splash screen */
       align-items: center;
       justify-content: center;
-      font-size: 1.15rem;
       cursor: pointer;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(6px);
-      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, opacity 0.5s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
+      padding: 0;
     }
 
     #musicToggle:hover {
-      transform: scale(1.1);
-      background: linear-gradient(180deg, var(--cream-deep), var(--gold-light));
-      box-shadow: 0 12px 28px rgba(60, 45, 10, .2);
+      transform: scale(1.08) translateY(-2px);
+      background: #fff;
+      box-shadow: 0 12px 30px rgba(201, 162, 39, 0.35);
+      border-color: var(--gold-dark);
+    }
+
+    /* Visualizer Bars */
+    .music-icon-bars {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .music-icon-bars .bar {
+      width: 2.5px;
+      height: 100%;
+      background-color: var(--gold-dark);
+      border-radius: 1px;
+      transition: height 0.3s ease;
+      animation: bounce 0.8s ease-in-out infinite alternate;
+      animation-play-state: paused; /* paused by default */
+    }
+
+    /* Animation delays for realistic wave effect */
+    .music-icon-bars .bar:nth-child(1) { height: 30%; animation-delay: 0.1s; }
+    .music-icon-bars .bar:nth-child(2) { height: 60%; animation-delay: 0.3s; }
+    .music-icon-bars .bar:nth-child(3) { height: 95%; animation-delay: 0.0s; }
+    .music-icon-bars .bar:nth-child(4) { height: 45%; animation-delay: 0.4s; }
+
+    #musicToggle.playing .bar {
+      animation-play-state: running;
+    }
+
+    #musicToggle.paused .bar {
+      animation-play-state: paused;
+      height: 25% !important; /* flatten bars when paused */
+    }
+
+    @keyframes bounce {
+      0% {
+        transform: scaleY(0.3);
+      }
+      100% {
+        transform: scaleY(1.1);
+      }
     }
 
     /* ============ SPLASH SCREEN ============ */
@@ -531,7 +577,14 @@
 
   <!-- background music: replace music.mp3 with your track -->
   <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
-  <button id="musicToggle" aria-label="Toggle music">🔊</button>
+  <button id="musicToggle" aria-label="Toggle music">
+    <div class="music-icon-bars">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </button>
 
   <!-- ============ SPLASH SCREEN ============ -->
   <div id="splash">
@@ -709,20 +762,20 @@
       if (splash && splashVideo) {
         splash.style.cursor = 'pointer';
 
-        // Play the video programmatically on load to ensure it starts playing immediately
-        splashVideo.play().catch((err) => {
-          console.log("Autoplay failed:", err);
-        });
-
         // Listen for video ending to automatically enter
         splashVideo.addEventListener('ended', () => {
           enterInvitation();
         });
 
-        // Tap to control flow: 1st tap plays music, 2nd tap enters
+        // Tap to control flow: 1st tap plays music and video, 2nd tap enters
         splash.addEventListener('click', (e) => {
           e.stopPropagation();
           if (splashState === 0) {
+            // Play video if it was paused (e.g. low power mode)
+            if (splashVideo.paused) {
+              splashVideo.play().catch((err) => console.log("Video play failed on click:", err));
+            }
+            // Play background music
             if (bgMusic && bgMusic.paused) {
               bgMusic.play().then(() => {
                 musicStarted = true;
@@ -766,7 +819,13 @@
       /* ---------- background music ---------- */
 
       function setToggleIcon(playing) {
-        musicToggle.textContent = playing ? '🔊' : '🔇';
+        if (playing) {
+          musicToggle.classList.remove('paused');
+          musicToggle.classList.add('playing');
+        } else {
+          musicToggle.classList.remove('playing');
+          musicToggle.classList.add('paused');
+        }
       }
 
       function tryAutoplay() {
