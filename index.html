@@ -65,75 +65,61 @@
     /* ============ MUSIC TOGGLE (persists across splash + site) ============ */
     #musicToggle {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 25px;
+      right: 25px;
       z-index: 200;
-      width: 48px;
-      height: 48px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      background: rgba(250, 245, 233, 0.9);
-      border: 1.5px solid var(--gold);
+      background: rgba(250, 245, 233, 0.85); /* cream glassmorphism */
+      border: 1px solid rgba(201, 162, 39, 0.45);
       color: var(--gold-dark);
       display: none; /* hidden on splash screen */
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 8px 32px rgba(60, 45, 10, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
-      padding: 0;
     }
 
     #musicToggle:hover {
       transform: scale(1.08) translateY(-2px);
-      background: #fff;
-      box-shadow: 0 12px 30px rgba(201, 162, 39, 0.35);
-      border-color: var(--gold-dark);
+      background: rgba(240, 230, 204, 0.95);
+      border-color: var(--gold);
+      box-shadow: 0 12px 36px rgba(60, 45, 10, 0.25);
     }
 
-    /* Visualizer Bars */
-    .music-icon-bars {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 3px;
-      width: 20px;
-      height: 20px;
+    #musicToggle:active {
+      transform: scale(0.95);
     }
 
-    .music-icon-bars .bar {
-      width: 2.5px;
-      height: 100%;
-      background-color: var(--gold-dark);
-      border-radius: 1px;
-      transition: height 0.3s ease;
-      animation: bounce 0.8s ease-in-out infinite alternate;
-      animation-play-state: paused; /* paused by default */
+    .music-svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.3s ease;
     }
 
-    /* Animation delays for realistic wave effect */
-    .music-icon-bars .bar:nth-child(1) { height: 30%; animation-delay: 0.1s; }
-    .music-icon-bars .bar:nth-child(2) { height: 60%; animation-delay: 0.3s; }
-    .music-icon-bars .bar:nth-child(3) { height: 95%; animation-delay: 0.0s; }
-    .music-icon-bars .bar:nth-child(4) { height: 45%; animation-delay: 0.4s; }
-
-    #musicToggle.playing .bar {
-      animation-play-state: running;
+    /* Soundwave animation for active playing state */
+    #musicToggle.playing .wave-1 {
+      animation: pulseWave 1.2s infinite ease-in-out;
+    }
+    #musicToggle.playing .wave-2 {
+      animation: pulseWave 1.2s infinite ease-in-out 0.3s;
     }
 
-    #musicToggle.paused .bar {
-      animation-play-state: paused;
-      height: 25% !important; /* flatten bars when paused */
-    }
-
-    @keyframes bounce {
-      0% {
-        transform: scaleY(0.3);
+    @keyframes pulseWave {
+      0%, 100% {
+        opacity: 0.35;
+        transform: scale(0.92);
+        transform-origin: 12px 12px;
       }
-      100% {
-        transform: scaleY(1.1);
+      50% {
+        opacity: 1;
+        transform: scale(1.08);
+        transform-origin: 12px 12px;
       }
     }
 
@@ -259,6 +245,58 @@
       min-height: 100vh;
     }
 
+    /* Background Corner Decorations */
+    .corner-decoration {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      width: clamp(150px, 22vw, 320px);
+      height: auto;
+      opacity: 0.9; /* high opacity elegant look */
+      transition: opacity 0.3s ease;
+      mix-blend-mode: multiply; /* blends white background smoothly with cream */
+    }
+
+    .corner-decoration.top-left {
+      top: 0;
+      left: 0;
+    }
+
+    .corner-decoration.bottom-right {
+      bottom: 0;
+      right: 0;
+    }
+
+    @media (max-width: 768px) {
+      .corner-decoration {
+        width: 100px;
+        opacity: 0.9;
+      }
+    }
+
+    /* Elegant Section Dividers */
+    .section-divider {
+      position: relative;
+      max-width: 360px;
+      margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dark) 20%, var(--gold-dark) 80%, transparent);
+      opacity: 0.35;
+      border: none;
+    }
+
+    .section-divider::after {
+      content: "♦";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--cream);
+      padding: 0 10px;
+      color: var(--gold-dark);
+      font-size: 0.8rem;
+    }
+
     section {
       position: relative;
       padding: 5.5rem 1.5rem;
@@ -266,6 +304,7 @@
       margin: 0 auto;
       text-align: center;
     }
+
 
     .crest {
       width: 88px;
@@ -578,21 +617,30 @@
   <!-- background music: replace music.mp3 with your track -->
   <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
   <button id="musicToggle" aria-label="Toggle music">
-    <div class="music-icon-bars">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </div>
+    <!-- Speaker playing icon (with waves) -->
+    <svg class="music-svg svg-playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" class="wave-2"></path>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" class="wave-1"></path>
+    </svg>
+    <!-- Speaker muted icon -->
+    <svg class="music-svg svg-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <line x1="23" y1="9" x2="17" y2="15"></line>
+      <line x1="17" y1="9" x2="23" y2="15"></line>
+    </svg>
   </button>
 
   <!-- ============ SPLASH SCREEN ============ -->
   <div id="splash">
-    <video id="splashVideo" src="splash.mp4" autoplay muted playsinline></video>
+    <video id="splashVideo" src="splash.mp4" playsinline></video>
   </div>
 
   <!-- ============ MAIN SITE ============ -->
   <div id="site">
+    <!-- Corner Decorations -->
+    <img src="left.png" class="corner-decoration top-left" alt="" role="presentation">
+    <img src="right.png" class="corner-decoration bottom-right" alt="" role="presentation">
 
     <!-- SECTION 1 : HERO -->
     <section id="hero">
@@ -612,6 +660,8 @@
         </div>
       </div>
     </section>
+
+    <hr class="section-divider">
 
     <!-- SECTION 2 : COUNTDOWN -->
     <section id="countdown">
@@ -639,6 +689,8 @@
         PM.</p>
     </section>
 
+    <hr class="section-divider">
+
     <!-- SECTION 3 : DRESS CODE -->
     <section id="dresscode">
       <div class="eyebrow">Dress code</div>
@@ -656,6 +708,8 @@
         </div>
       </div>
     </section>
+
+    <hr class="section-divider">
 
     <!-- SECTION 4 : MAP -->
     <section id="location">
@@ -676,6 +730,8 @@
         </div>
       </div>
     </section>
+
+    <hr class="section-divider">
 
     <!-- SECTION 5 : RSVP -->
     <section id="rsvp">
@@ -764,28 +820,21 @@
 
         // Listen for video ending to automatically enter
         splashVideo.addEventListener('ended', () => {
-          enterInvitation();
+          if (splashState === 1) {
+            enterInvitation();
+          }
         });
 
-        // Tap to control flow: 1st tap plays music and video, 2nd tap enters
-        splash.addEventListener('click', (e) => {
-          e.stopPropagation();
+        splash.addEventListener('click', () => {
           if (splashState === 0) {
-            // Play video if it was paused (e.g. low power mode)
-            if (splashVideo.paused) {
-              splashVideo.play().catch((err) => console.log("Video play failed on click:", err));
-            }
-            // Play background music
-            if (bgMusic && bgMusic.paused) {
-              bgMusic.play().then(() => {
-                musicStarted = true;
-                setToggleIcon(true);
-              }).catch((err) => {
-                console.log("Music play failed on first tap:", err);
-              });
-            }
+            // First tap: Play video
             splashState = 1;
+            splashVideo.play().catch((err) => {
+              console.log("Video play failed, skipping splash:", err);
+              enterInvitation();
+            });
           } else if (splashState === 1) {
+            // Second tap: Skip video / enter site
             enterInvitation();
           }
         });
@@ -819,12 +868,16 @@
       /* ---------- background music ---------- */
 
       function setToggleIcon(playing) {
+        const svgPlaying = musicToggle.querySelector('.svg-playing');
+        const svgMuted = musicToggle.querySelector('.svg-muted');
         if (playing) {
-          musicToggle.classList.remove('paused');
+          if (svgPlaying) svgPlaying.style.display = 'block';
+          if (svgMuted) svgMuted.style.display = 'none';
           musicToggle.classList.add('playing');
         } else {
+          if (svgPlaying) svgPlaying.style.display = 'none';
+          if (svgMuted) svgMuted.style.display = 'block';
           musicToggle.classList.remove('playing');
-          musicToggle.classList.add('paused');
         }
       }
 
@@ -832,7 +885,6 @@
         bgMusic.play().then(() => {
           musicStarted = true;
           setToggleIcon(true);
-          splashState = 1; // Music is already playing, next tap goes to site
         }).catch(() => {
           /* autoplay blocked until a user gesture — will start on first click/tap */
           setToggleIcon(false);
