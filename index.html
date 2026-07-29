@@ -59,6 +59,8 @@
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
       color: var(--gold);
     }
 
@@ -71,10 +73,12 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: rgba(250, 245, 233, 0.85); /* cream glassmorphism */
+      background: rgba(250, 245, 233, 0.85);
+      /* cream glassmorphism */
       border: 1px solid rgba(201, 162, 39, 0.45);
       color: var(--gold-dark);
-      display: none; /* hidden on splash screen */
+      display: none;
+      /* hidden on splash screen */
       align-items: center;
       justify-content: center;
       cursor: pointer;
@@ -106,16 +110,20 @@
     #musicToggle.playing .wave-1 {
       animation: pulseWave 1.2s infinite ease-in-out;
     }
+
     #musicToggle.playing .wave-2 {
       animation: pulseWave 1.2s infinite ease-in-out 0.3s;
     }
 
     @keyframes pulseWave {
-      0%, 100% {
+
+      0%,
+      100% {
         opacity: 0.35;
         transform: scale(0.92);
         transform-origin: 12px 12px;
       }
+
       50% {
         opacity: 1;
         transform: scale(1.08);
@@ -160,7 +168,8 @@
     .splash-overlay {
       position: relative;
       z-index: 2;
-      background: rgba(35, 30, 23, 0.45); /* soft dark glassmorphism */
+      background: rgba(35, 30, 23, 0.45);
+      /* soft dark glassmorphism */
       padding: 2.5rem 2rem;
       border-radius: 16px;
       backdrop-filter: blur(8px);
@@ -177,6 +186,7 @@
         opacity: 0;
         transform: scale(0.95);
       }
+
       to {
         opacity: 1;
         transform: scale(1);
@@ -252,9 +262,11 @@
       z-index: 1;
       width: clamp(150px, 22vw, 320px);
       height: auto;
-      opacity: 0.9; /* high opacity elegant look */
+      opacity: 0.9;
+      /* high opacity elegant look */
       transition: opacity 0.3s ease;
-      mix-blend-mode: multiply; /* blends white background smoothly with cream */
+      mix-blend-mode: multiply;
+      /* blends white background smoothly with cream */
     }
 
     .corner-decoration.top-left {
@@ -334,10 +346,11 @@
       font-family: 'Playfair Display', serif;
       font-weight: 600;
       font-size: clamp(5rem, 26vw, 11rem);
-      line-height: .85;
+      line-height: 1.05;
       margin: .2rem 0;
       position: relative;
       display: inline-block;
+      padding-bottom: 0.08em;
     }
 
     .big-number sup {
@@ -540,6 +553,7 @@
         opacity: 0;
         transform: translateX(-50%) translateY(16px);
       }
+
       to {
         opacity: 1;
         transform: translateX(-50%) translateY(8px);
@@ -618,13 +632,15 @@
   <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
   <button id="musicToggle" aria-label="Toggle music">
     <!-- Speaker playing icon (with waves) -->
-    <svg class="music-svg svg-playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <svg class="music-svg svg-playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
       <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
       <path d="M19.07 4.93a10 10 0 0 1 0 14.14" class="wave-2"></path>
       <path d="M15.54 8.46a5 5 0 0 1 0 7.07" class="wave-1"></path>
     </svg>
     <!-- Speaker muted icon -->
-    <svg class="music-svg svg-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+    <svg class="music-svg svg-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round" style="display: none;">
       <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
       <line x1="23" y1="9" x2="17" y2="15"></line>
       <line x1="17" y1="9" x2="23" y2="15"></line>
@@ -633,7 +649,7 @@
 
   <!-- ============ SPLASH SCREEN ============ -->
   <div id="splash">
-    <video id="splashVideo" src="splash.mp4" playsinline></video>
+    <video id="splashVideo" src="splash.mp4" playsinline muted autoplay loop></video>
   </div>
 
   <!-- ============ MAIN SITE ============ -->
@@ -725,7 +741,8 @@
       <div class="calendar-dropdown-container">
         <button class="btn" id="calendarBtn">Add to Calendar</button>
         <div class="calendar-dropdown" id="calendarDropdown">
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gertrude%27s+30th+Birthday+Celebration&dates=20260920T160000/20260920T210000&details=Please+join+us+for+Gertrude%27s+30th+Birthday+Celebration%21&location=F3+Lounge+%26+Event+Center" target="_blank" rel="noopener">Google Calendar</a>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gertrude%27s+30th+Birthday+Celebration&dates=20260920T160000/20260920T210000&details=Please+join+us+for+Gertrude%27s+30th+Birthday+Celebration%21&location=F3+Lounge+%26+Event+Center"
+            target="_blank" rel="noopener">Google Calendar</a>
           <a href="#" id="downloadIcs">Apple / Outlook (.ics)</a>
         </div>
       </div>
@@ -740,7 +757,9 @@
       <p class="tagline">Strictly by invitation — please confirm your attendance so we can save your seat at the table.
       </p>
       <div class="rsvp-box">
-        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSc7cUr21ocLKtkDkDHBMpJ_cnIxu03rxIzRGWKd3juthcIVKA/viewform?usp=publish-editor" target="_blank" rel="noopener">RSVP Now</a>
+        <a class="btn"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSc7cUr21ocLKtkDkDHBMpJ_cnIxu03rxIzRGWKd3juthcIVKA/viewform?usp=publish-editor"
+          target="_blank" rel="noopener">RSVP Now</a>
       </div>
       <div class="rsvp-contact">Questions? Contact <strong>Kojo</strong> · 612-707-1467</div>
     </section>
@@ -748,7 +767,8 @@
     <footer>Strictly By Invitation</footer>
 
     <div class="credits">
-      made with love with weddingbyawff · <a href="https://instagram.com/weddingbyawff" target="_blank" rel="noopener">@weddingbyawff</a>
+      made with love with weddingbyawff · <a href="https://instagram.com/weddingbyawff" target="_blank"
+        rel="noopener">@weddingbyawff</a>
     </div>
 
   </div>
@@ -818,26 +838,17 @@
       if (splash && splashVideo) {
         splash.style.cursor = 'pointer';
 
-        // Listen for video ending to automatically enter
-        splashVideo.addEventListener('ended', () => {
-          if (splashState === 1) {
-            enterInvitation();
+        const enterInvitationOnce = (e) => {
+          if (e) {
+            e.preventDefault();
+            e.stopPropagation();
           }
-        });
+          enterInvitation();
+        };
 
-        splash.addEventListener('click', () => {
-          if (splashState === 0) {
-            // First tap: Play video
-            splashState = 1;
-            splashVideo.play().catch((err) => {
-              console.log("Video play failed, skipping splash:", err);
-              enterInvitation();
-            });
-          } else if (splashState === 1) {
-            // Second tap: Skip video / enter site
-            enterInvitation();
-          }
-        });
+        splash.addEventListener('click', enterInvitationOnce);
+        splash.addEventListener('touchstart', enterInvitationOnce);
+        splashVideo.addEventListener('ended', enterInvitationOnce);
       }
 
       /* ---------- countdown ---------- */
