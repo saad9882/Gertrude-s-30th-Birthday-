@@ -672,9 +672,10 @@
         </div>
         <div>Time<div>4:00 PM</div>
         </div>
-        <div>Venue<div>F3 Lounge &amp; & Event Center 
-17830 Kenwood Trail 
-Lakeville, MN 55044 </div>
+        <div>Venue<div>F3 Lounge &amp; Event Center</div>
+          <div
+            style="font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.15rem; text-transform: none; font-family: 'Cormorant Garamond', serif; font-style: italic;">
+            17830 Kenwood Trail Lakevile, MN 55044</div>
         </div>
       </div>
     </section>
@@ -734,6 +735,9 @@ Lakeville, MN 55044 </div>
       <div class="eyebrow">Venue</div>
       <div class="headline" style="margin-top:.4rem;">Find Us Here</div>
       <div class="venue-name">F3 Lounge &amp; Event Center</div>
+      <div class="venue-address"
+        style="font-size: 1.15rem; margin-top: 0.4rem; color: var(--ink-soft); font-family: 'Cormorant Garamond', serif;">
+        17830 Kenwood Trail Lakevile, MN 55044</div>
       <div class="map-frame">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2836.45439661867!2d-93.2836056883204!3d44.68992108464519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87f639abdec55593%3A0xf0c0e376437f25e8!2sF3%20Lounge%20%26%20Event%20Center!5e0!3m2!1sen!2s!4v1785143935848!5m2!1sen!2s"
@@ -905,6 +909,13 @@ Lakeville, MN 55044 </div>
       }
       tryAutoplay();
 
+      // Loop the music back to the start when it reaches 1:00 (60 seconds)
+      bgMusic.addEventListener('timeupdate', () => {
+        if (bgMusic.currentTime >= 60) {
+          bgMusic.currentTime = 0;
+        }
+      });
+
       function startOnFirstGesture() {
         if (!musicStarted) {
           bgMusic.play().then(() => { musicStarted = true; setToggleIcon(true); }).catch(() => { });
@@ -953,9 +964,7 @@ Lakeville, MN 55044 </div>
             'DTEND:20260920T210000',
             'SUMMARY:Gertrude\'s 30th Birthday Celebration',
             'DESCRIPTION:Please join us in celebrating Gertrude\'s 30th Birthday!',
-            'LOCATION:F3 Lounge & Event Center 
-17830 Kenwood Trail 
-Lakeville, MN 55044',
+            'LOCATION:F3 Lounge & Event Center',
             'END:VEVENT',
             'END:VCALENDAR'
           ].join('\r\n');
