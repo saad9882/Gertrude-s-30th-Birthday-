@@ -458,11 +458,25 @@
       box-shadow: var(--shadow);
     }
 
+    .dress-images-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      height: 120px;
+    }
+
     .dress-icon-img {
-      width: 60px;
-      height: 60px;
+      height: 100%;
+      width: auto;
+      max-width: 90px;
       object-fit: contain;
-      margin-bottom: .7rem;
+      transition: transform 0.3s ease;
+    }
+
+    .dress-icon-img:hover {
+      transform: scale(1.05);
     }
 
     .dress-title {
@@ -716,12 +730,17 @@
       <div class="headline" style="margin-top:.4rem;">Classy &amp; Elegant Attire</div>
       <div class="dress-grid">
         <div class="dress-card">
-          <img src="men.png" alt="Men's dress code" class="dress-icon-img">
+          <div class="dress-images-container">
+            <img src="tie.png" alt="Men's dress code - Tie Option" class="dress-icon-img">
+            <img src="bow.png" alt="Men's dress code - Bow Option" class="dress-icon-img">
+          </div>
           <div class="dress-title">Men</div>
           <div class="dress-desc">Black Business Casual</div>
         </div>
         <div class="dress-card">
-          <img src="women.png" alt="Women's dress code" class="dress-icon-img">
+          <div class="dress-images-container">
+            <img src="women.png" alt="Women's dress code" class="dress-icon-img">
+          </div>
           <div class="dress-title">Women</div>
           <div class="dress-desc">Classy &amp; Elegant Attire</div>
         </div>
